@@ -1,0 +1,46 @@
+.nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-inline: 0.5rem;
+    height: var(--nav-height);
+    justify-content: space-between;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--gray);
+}
+
+.nav > * {
+    padding: 0.25rem;
+}
+
+.homeLink {
+    color: inherit;
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.account {
+    cursor: not-allowed;
+    border-radius: 0.25rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.account > img {
+    height: 2.5rem;
+}
+
+.account:hover {
+    background-color: var(--gray);
+    transition: 200ms ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .account > span {
+        display: none;
+    }
+}
