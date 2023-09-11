@@ -1,0 +1,32 @@
+.nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-inline: 1rem;
+    height: 3.5rem;
+    justify-content: space-between;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--gray);
+    overflow: hidden;
+}
+
+.nav > * {
+    padding: 0.25rem;
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.user {
+    height: 2rem;
+}
+
+.account:hover {
+    background-color: var(--gray);
+    transition: 200ms ease-in-out;
+}

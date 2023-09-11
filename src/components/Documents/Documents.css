@@ -1,0 +1,25 @@
+.btnPrimary {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    background-color: #000;
+    color: #FFF;
+    cursor: pointer;
+    border: 0;
+}
+
+.btnSecondary {
+    background-color: #fff;
+    border: 0;
+    font-weight: 700;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+.btnSecondary:hover {
+    text-decoration: underline;
+}
+
+.btnDisabled {
+    background-color: var(--gray) !important;
+    cursor: not-allowed !important;
+}

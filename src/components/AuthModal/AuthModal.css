@@ -1,0 +1,47 @@
+.authModal {
+    width: 100%;
+    height: 100%;
+    max-width: 24rem;
+    max-height: 24rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--gray);
+    box-sizing: border-box;
+}
+
+.authModal::backdrop {
+	background-color: hsla(0, 0%, 0%, 0.7);
+}
+
+.registerForm {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    padding-block: 1rem;
+    box-sizing: border-box;
+    height: calc(100% - var(--modal-heading-height));
+}
+
+.authModalHeading {
+    display: flex;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.25rem;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--modal-heading-height);
+}
+
+.authModalHeading > span {
+    cursor: pointer;
+}
+
+#authModalSubmit {
+    margin-top: auto;
+    width: 50%;
+    margin-inline: auto;
+}
+
+.message {
+    text-align: center;
+    font-size: 0.85rem;
+}

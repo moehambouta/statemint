@@ -1,0 +1,50 @@
+.docsGridHeading {
+    display: flex;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.docsGrid {
+    gap: 1rem;
+    display: grid;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.docCard {
+    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    border-radius: 0.25rem;
+}
+
+.docCardName {
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+    font-size: 1.35rem;
+    border-bottom: 1px solid #000;
+}
+
+.docCardDetails {
+    font-size: 0.9rem;
+}
+
+.docCardBtns {
+    gap: 0.25rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.docCardBtns * {
+    width: 100%;
+}

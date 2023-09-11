@@ -1,0 +1,44 @@
+{
+    "DocTypes": [
+        {
+            "name": "U.S. Bank Statement",
+            "src": "assets/bank-statement.png",
+            "active": true
+        },
+        {
+            "name": "U.S. Credit Card Statement",
+            "src": "assets/cc-statement.png",
+            "active": false
+        },
+        {
+            "name": "Invoice",
+            "src": "assets/invoice.png",
+            "active": false
+        },
+        {
+            "name": "Purchase Order",
+            "src": "assets/purchase-order.png",
+            "active": false
+        },
+        {
+            "name": "Balance Sheet",
+            "src": "assets/balance-sheet.png",
+            "active": false
+        },
+        {
+            "name": "Income Statement",
+            "src": "assets/income-statement.png",
+            "active": false
+        },
+        {
+            "name": "Cash Flow Statement",
+            "src": "assets/cash-flow-statement.png",
+            "active": false
+        },
+        {
+            "name": "Brokerage Statement",
+            "src": "assets/brokerage-statement.png",
+            "active": false
+        }
+    ]
+}

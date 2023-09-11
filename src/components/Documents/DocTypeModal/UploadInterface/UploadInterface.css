@@ -1,0 +1,76 @@
+.uploadForm {
+    gap: 1rem;
+    height: calc(100% - var(--modal-heading-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-block: 1rem;
+    box-sizing: border-box;
+}
+
+#documentName {
+    height: 2rem;
+}
+
+.uploadArea {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.uploadAreaInput {
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border: 3px dashed var(--gray);
+    box-sizing: border-box;
+}
+
+.uploadAreaInput.dragActive {
+    background-color: var(--gray);
+}
+
+.details {
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.details p {
+    padding: 0.2rem;
+}
+
+.uploadedFiles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    overflow: auto;
+}
+
+.uploadedFiles > p {
+    padding: 0.25rem;
+    margin-left: 0.5rem;
+    box-sizing: border-box;
+    border: 1px solid var(--gray);
+}
+
+.buttons {
+    gap: 0.4rem;
+    display: flex;
+    justify-content: right;
+}
+
+#dragFileElement {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
