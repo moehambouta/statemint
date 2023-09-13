@@ -1,7 +1,7 @@
 import "./DocsGrid.css";
 import PropTypes from "prop-types";
 
-const DocsGrid = ({docs, docTypeModalRef}) => {
+const DocsGrid = ({documents, docTypeModalRef}) => {
     return (
         <>
             <div className="docsGridHeading">
@@ -9,12 +9,12 @@ const DocsGrid = ({docs, docTypeModalRef}) => {
                 <button className="btnPrimary" onClick={() => docTypeModalRef.current.showModal()}>+ Add document type</button>
             </div>
             <div className="docsGrid">
-                {docs.map((doc, index) =>
+                {documents.map((doc, index) =>
                     <div key={index} className="docCard">
-                        <p className="docCardName">{doc.name}</p>
-                        <p className="docCardDetails">Uploaded: {doc.uploaded}</p>
-                        <p className="docCardDetails">Review Pending: {doc.reviewPending}</p>
-                        <p className="docCardDetails">Approved: {doc.approved}</p>
+                        <p className="docCardName">{doc.document_name}</p>
+                        <p className="docCardDetails">Uploaded: {doc.total_uploads}</p>
+                        <p className="docCardDetails">Review Pending: {doc.reviewPending_count}</p>
+                        <p className="docCardDetails">Approved: {doc.approved_count}</p>
                         <div className="docCardBtns">
                             <button className="btnPrimary">Edit Fields</button>
                             <button className="btnPrimary">Upload</button>
@@ -28,7 +28,7 @@ const DocsGrid = ({docs, docTypeModalRef}) => {
 };
 
 DocsGrid.propTypes = {
-    docs: PropTypes.array.isRequired,
+    documents: PropTypes.array.isRequired,
     docTypeModalRef: PropTypes.object.isRequired
 }
 

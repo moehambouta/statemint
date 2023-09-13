@@ -9,9 +9,7 @@ const AuthModal = ({authModalRef}) => {
     const [message, setMessage] = useState("Already have an account?");
     const [otherModalType, setOtherModalType] = useState("Log In");
 
-    const closeDialog = () => {
-        authModalRef.current.close();
-    };
+    const closeDialog = () => authModalRef.current.close();
 
     const changeModalType = () => {
         if (isEmail) {
@@ -28,6 +26,8 @@ const AuthModal = ({authModalRef}) => {
     };
 
     const handleFormSubmit = (e) => {
+        e.preventDefault();
+
         const formData = new FormData(e.target);
 
         let data = {
@@ -35,16 +35,20 @@ const AuthModal = ({authModalRef}) => {
             password: formData.get("password")
         };
 
-        if (modalType === "Register") {
-            data["email"] = formData.get("email");
-        }
+        if (modalType === "Register") data["email"] = formData.get("email");
 
         axios({
             method: "POST",
             data: data,
             withCredentials: true,
-            url: `/${modalType.replace(/\s+/g, '').toLowerCase()}`
-        })
+            url: `/auth/${modalType.replace(/\s+/g, '').toLowerCase()}`
+        }).then((res) => {
+            if (!res.data.success) throw new Error(res.data.error);
+            window.location.reload();
+        }).catch((error) => {
+            console.log(error);
+            alert(error);
+        });
     };
 
     return (

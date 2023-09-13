@@ -1,27 +1,45 @@
-import express from "express";
-import ViteExpress from "vite-express";
-import multer from "multer";
+import fs from "fs";
+import path from "path";
 import cors from "cors";
-import passport from "passport";
-import cookieParser from "cookie-parser";
-import bcrypt from "bcrypt";
-import session from "express-session";
-import bodyParser from "body-parser";
 import mysql from "mysql";
+import express from "express";
+import passport from "passport";
+import { fileURLToPath } from 'url';
+import bodyParser from "body-parser";
+import session from "express-session";
+import ViteExpress from "vite-express";
+import apiRouter from "./routes/api.js";
+import cookieParser from "cookie-parser";
+import authRouter from "./routes/auth.js";
 import passportConfig from "./passportConfig.js";
 
+// Establishing connection to DB before server initialization
+// Database needs to be updated for production
 export const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     database: 'statemint'
 });
 
-db.connect((err) => {
-    if (err) throw err;
+db.connect((error) => {
+    if (error) throw error;
 });
 
+// Checking if 'uploads' folder exists, if not, create and export it
+// Paths needs to be updated for production
+const __filename = fileURLToPath(import.meta.url);
+export const __dirname = path.dirname(__filename);
+const uploadsFolderPath = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadsFolderPath)) {
+    fs.mkdir(path.join(__dirname, 'uploads'), (error) => {
+        if (error) return console.log(error);
+    });
+}
+
+// Server initialization
+// Cors origin and secret needs to be updated for production
 const app = express();
-const upload = multer();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,40 +59,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 passportConfig(passport);
 
-app.post("/login", (req, res, next) => {
-    passport.authenticate("local", (err, user) => {
-        if (err) throw err;
-        if (!user) res.send({"success": false})
-        else {
-            req.logIn(user, err => {
-                if (err) throw err;
-                res.send({"success": true});
-            });
-        }
-    })(req, res, next);
-});
-
-app.post("/register", async (req, res) => {
-    const sql = "INSERT INTO users SET ?";
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-    db.query(sql, {...req.body, password: hashedPassword}, (err) => {
-        if (err) {
-            res.send({"success": false, "message": err.message})
-        } else {
-            res.send({"success": true})
-        }
-    });
-});
-
-app.get("/user", (req, res) => {
-    res.send(req.user);
-});
-
-app.post('/upload', upload.any(), (req, res) => {
-    console.log(req.body);
-    console.log(req.files);
-    res.send({"success": true});
-});
+app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 
 ViteExpress.listen(app, 3000, () => console.log("Server is listening..."));

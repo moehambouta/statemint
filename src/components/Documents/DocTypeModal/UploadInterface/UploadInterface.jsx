@@ -1,9 +1,10 @@
+import axios from 'axios';
 import "./UploadInterface.css";
-import { useRef, useState } from "react";
 import PropTypes from 'prop-types';
+import { useRef, useState } from "react";
 
-const UploadInterface = ({docs, setDocs, docType, closeDialog, setModalHeading, setUploadInterface}) => {
-    const inputRef = useRef(null);
+const UploadInterface = ({documentType, setDocuments, closeDialog, setModalHeading, setUploadInterface}) => {
+    const fileUploadInputRef = useRef(null);
     const [files, setFiles] = useState([]);
     const [documentName, setDocumentName] = useState("");
     const [dragActive, setDragActive] = useState(false);
@@ -43,7 +44,7 @@ const UploadInterface = ({docs, setDocs, docType, closeDialog, setModalHeading, 
 
     const handleClick = (e) => {
         e.preventDefault();
-        inputRef.current.click();
+        fileUploadInputRef.current.click();
     };
 
     const returnToDocTypeModal = () => {
@@ -54,24 +55,25 @@ const UploadInterface = ({docs, setDocs, docType, closeDialog, setModalHeading, 
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('documentType', docType);
+        formData.append('documentType', documentType);
         formData.append('documentName', documentName);
+
         for (let i = 0; i < files.length; i++) {
             formData.append('documentFiles', files[i]);
         }
 
-        const requestOptions = {
+        axios({
             method: 'POST',
-            body: formData
-        };
-
-        fetch('/upload', requestOptions)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch((error) => console.error('Error:', error));
-
-        setDocs([...docs, {"name": documentName, "uploaded": files.length, "reviewPending": 0, "approved": 0}]);
-        closeDialog();
+            url: '/api/upload',
+            data: formData,
+            withCredentials: true
+        }).then((res) => {
+            closeDialog();
+            setDocuments(prevDocs => [...prevDocs, res.data.document]);
+        }).catch((error) => {
+            console.log(error);
+            alert("Error uploading document!");
+        });
     };
 
     return (
@@ -85,7 +87,7 @@ const UploadInterface = ({docs, setDocs, docType, closeDialog, setModalHeading, 
                     type="file"
                     id="DocumentFile"
                     name="DocumentFile"
-                    ref={inputRef}
+                    ref={fileUploadInputRef}
                     style={{display: "none"}}
                     onChange={(e) => handleFileChange(e.target)}
                     accept=".pdf, image/png, image/jpeg"
@@ -118,9 +120,8 @@ const UploadInterface = ({docs, setDocs, docType, closeDialog, setModalHeading, 
 };
 
 UploadInterface.propTypes = {
-    docs: PropTypes.array.isRequired,
-    setDocs: PropTypes.func.isRequired,
-    docType: PropTypes.string.isRequired,
+    documentType: PropTypes.string.isRequired,
+    setDocuments: PropTypes.func.isRequired,
     closeDialog: PropTypes.func.isRequired,
     setModalHeading: PropTypes.func.isRequired,
     setUploadInterface: PropTypes.func.isRequired
