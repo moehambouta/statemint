@@ -4,7 +4,11 @@ import PropTypes from "prop-types";
 import DocTypeGrid from "./DocTypeGrid/DocTypeGrid";
 import UploadInterface from "./UploadInterface/UploadInterface";
 
-const Modal = ({setDocuments, docTypeModalRef}) => {
+/**
+ * TODO: Improve mobile experience
+ * TODO: Make modal take whole screen in mobile view
+**/
+const DocTypeModal = ({setDocuments, docTypeModalRef}) => {
     const [documentType, setDocumentType] = useState("");
     const [isUploadInterface, setUploadInterface] = useState(false);
     const [modalHeading, setModalHeading] = useState("Select a document type");
@@ -44,9 +48,9 @@ const Modal = ({setDocuments, docTypeModalRef}) => {
     )
 };
 
-Modal.propTypes = {
+DocTypeModal.propTypes = {
     setDocuments: PropTypes.func.isRequired,
     docTypeModalRef: PropTypes.object.isRequired
 };
 
-export default Modal;
+export default DocTypeModal;

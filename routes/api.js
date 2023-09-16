@@ -7,11 +7,13 @@ import { DocumentService } from "../services/DocumentService.js";
 
 var router = express.Router();
 
+// Multer file filter that only accepts images and pdf files
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
     allowedTypes.includes(file.mimetype) ? cb(null, true) : cb(null, false);
 };
 
+// Multer storage that creates a folder and then saves the uploaded file there
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -27,9 +29,17 @@ const storage = multer.diskStorage({
     }
 });
 
+// Multer upload instance
 const upload = multer({ storage, fileFilter });
 
-router.post('/upload', upload.any(), (req, res) => DocumentService.setNewDocument(req, res));
-router.get('/documents', (req, res) => DocumentService.getUserDocuments(req, res));
+// API middleware functions
+const setNewDocument = (req, res) => DocumentService.setNewDocument(req, res);
+const getDocumentById = (req, res) => DocumentService.getDocumentById(req, res);
+const getDocumentsById = (req, res) => DocumentService.getDocumentsById(req, res);
+
+// API routes
+router.post('/upload', upload.any(), setNewDocument);
+router.get('/documents/:id', getDocumentById);
+router.get('/documents', getDocumentsById);
 
 export default router;

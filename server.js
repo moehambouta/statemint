@@ -14,19 +14,19 @@ import authRouter from "./routes/auth.js";
 import passportConfig from "./passportConfig.js";
 
 // Establishing connection to DB before server initialization
-// Database needs to be updated for production
+// * Global DB instance exported from here
+// TODO: Database needs to be updated for production
 export const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     database: 'statemint'
 });
 
-db.connect((error) => {
-    if (error) throw error;
-});
+db.connect((error) => { if (error) throw error });
 
-// Checking if 'uploads' folder exists, if not, create and export it
-// Paths needs to be updated for production
+// Checking if 'uploads' folder exists, if not, create it
+// * Replicates __dirname functionality from CommonJS
+// TODO: Paths needs to be updated for production
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 const uploadsFolderPath = path.join(__dirname, "uploads");
@@ -37,8 +37,8 @@ if (!fs.existsSync(uploadsFolderPath)) {
     });
 }
 
-// Server initialization
-// Cors origin and secret needs to be updated for production
+// Server initialization and configuration
+// TODO: Cors origin and secret needs to be updated for production
 const app = express();
 
 app.use(bodyParser.json());

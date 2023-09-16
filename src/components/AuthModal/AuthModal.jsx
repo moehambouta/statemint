@@ -3,11 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
+/**
+ * TODO: Implement better UI
+**/
 const AuthModal = ({authModalRef}) => {
     const [isEmail, setIsEmail] = useState(true);
     const [modalType, setModalType] = useState("Register");
-    const [message, setMessage] = useState("Already have an account?");
     const [otherModalType, setOtherModalType] = useState("Log In");
+    const [message, setMessage] = useState("Already have an account?");
 
     const closeDialog = () => authModalRef.current.close();
 

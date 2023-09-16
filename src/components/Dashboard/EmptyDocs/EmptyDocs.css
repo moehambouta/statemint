@@ -5,10 +5,19 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0.5rem;
+    padding: 0.75rem 1.75rem;
     box-sizing: border-box;
+    line-height: 1.5rem;
 }
 
-.emptyDocs > h1 {
+.emptyDocs > .heading {
     font-weight: bold;
+}
+
+.emptyDocs > .subheading {
+    font-size: 0.9rem;
+}
+
+.emptyDocs > .btnPrimary {
+    font-size: 1rem;
 }

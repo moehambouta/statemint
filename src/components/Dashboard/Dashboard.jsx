@@ -1,4 +1,4 @@
-import "./Documents.css";
+import "./Dashboard.css";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import DocsGrid from "./DocsGrid/DocsGrid";
@@ -6,7 +6,11 @@ import EmptyDocs from "./EmptyDocs/EmptyDocs";
 import DocTypeModal from "./DocTypeModal/DocTypeModal";
 import axios from "axios";
 
-const Documents = ({user, authModalRef}) => {
+/**
+ * TODO: Abstract container css for DocsGrid and EmptyDocs
+ * TODO: Add loading component for after document creation
+**/
+const Dashboard = ({user, authModalRef}) => {
     const docTypeModalRef = useRef(null);
     const [documents, setDocuments] = useState([]);
 
@@ -33,9 +37,9 @@ const Documents = ({user, authModalRef}) => {
     )
 }
 
-Documents.propTypes = {
+Dashboard.propTypes = {
     user: PropTypes.object,
     authModalRef: PropTypes.object.isRequired
 };
 
-export default Documents;
+export default Dashboard;

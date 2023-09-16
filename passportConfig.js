@@ -2,6 +2,12 @@ import bcrypt from "bcrypt";
 import { db } from "./server.js";
 import { Strategy } from "passport-local";
 
+// TODO: Implement SQL query class
+// ? select(selectWhat, fromWhere, byWhat, Value)
+// ? insertInto(insertIntoWhat, setWhat)
+// ? insertInto(insertIntoWhat, columns, values)
+// ? getDocsBy(getDocsByWhat)
+
 export default function (passport) {
     passport.use(
         new Strategy((username, password, done) => {
@@ -28,8 +34,6 @@ export default function (passport) {
 
     passport.deserializeUser((id, cb) => {
         let sql = "SELECT * FROM users WHERE user_id = ?";
-        db.query(sql, [id], (error, results) => {
-            cb(error, results[0]);
-        });
+        db.query(sql, [id], (error, results) => cb(error, results[0]));
     });
 }

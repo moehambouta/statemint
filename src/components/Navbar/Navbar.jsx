@@ -5,15 +5,14 @@ const Navbar = ({user, authModalRef}) => {
     return (
         <div className="nav">
             <a href="/" className="homeLink">
-                <img src="assets/logoIcon.png" alt="Logo" />
+                <img src="/assets/logoIcon.png" alt="Logo" />
             </a>
-            <div className="account">
-                <span>{user?.username}</span>
+            <div className="account" onClick={() => !user?.username && authModalRef.current.showModal()}>
+                <span>{user?.username || "Register"}</span>
                 <img
                     className="user"
                     alt="User Icon"
-                    src="assets/user.png"
-                    onClick={() => !user?.username && authModalRef.current.showModal()}
+                    src="/assets/user.png"
                 />
             </div>
         </div>

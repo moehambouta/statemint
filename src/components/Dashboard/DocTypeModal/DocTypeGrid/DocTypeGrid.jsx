@@ -2,6 +2,9 @@ import "./DocTypeGrid.css";
 import PropTypes from 'prop-types';
 import docTypesData from "./DocTypes.json";
 
+/**
+ * TODO: Retrieve DocTypes from database instead of JSON
+**/
 const DocTypeCard = ({name, src, setDocumentType, setModalHeading, setUploadInterface}) => {
     const handleClick = () => {
         setDocumentType(name);

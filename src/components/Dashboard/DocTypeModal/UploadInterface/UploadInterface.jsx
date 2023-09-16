@@ -3,13 +3,26 @@ import "./UploadInterface.css";
 import PropTypes from 'prop-types';
 import { useRef, useState } from "react";
 
+/**
+ * TODO: Make files appear below upload area in mobile view
+**/
 const UploadInterface = ({documentType, setDocuments, closeDialog, setModalHeading, setUploadInterface}) => {
-    const fileUploadInputRef = useRef(null);
     const [files, setFiles] = useState([]);
+    const fileUploadInputRef = useRef(null);
     const [documentName, setDocumentName] = useState("");
     const [dragActive, setDragActive] = useState(false);
 
     let isSubmitBtnDisabled = documentName.length === 0 || files.length === 0;
+
+    const returnToDocTypeModal = () => {
+        setModalHeading("Select a document type");
+        setUploadInterface(false);
+    };
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        fileUploadInputRef.current.click();
+    };
 
     const handleDrag = function(e) {
         e.preventDefault();
@@ -36,20 +49,10 @@ const UploadInterface = ({documentType, setDocuments, closeDialog, setModalHeadi
             if (target.files[i].size !== 0) {
                 tempArr.push(target.files[i]);
             } else {
-                alert(target.files[i].name + " size: 0. Skipping upload!");
+                alert(target.files[i].name + " size: 0. Skipping file!");
             }
         }
         setFiles([...files, ...tempArr]);
-    };
-
-    const handleClick = (e) => {
-        e.preventDefault();
-        fileUploadInputRef.current.click();
-    };
-
-    const returnToDocTypeModal = () => {
-        setModalHeading("Select a document type");
-        setUploadInterface(false);
     };
 
     const handleFormSubmit = (e) => {
@@ -62,6 +65,14 @@ const UploadInterface = ({documentType, setDocuments, closeDialog, setModalHeadi
             formData.append('documentFiles', files[i]);
         }
 
+        const document = {
+            document_id: null,
+            document_name: documentName,
+            total_uploads: files.length,
+            reviewPending_count: 0,
+            approved_count: 0
+        }
+
         axios({
             method: 'POST',
             url: '/api/upload',
@@ -69,7 +80,8 @@ const UploadInterface = ({documentType, setDocuments, closeDialog, setModalHeadi
             withCredentials: true
         }).then((res) => {
             closeDialog();
-            setDocuments(prevDocs => [...prevDocs, res.data.document]);
+            document.document_id = res.data.documentId;
+            setDocuments(prevDocs => [...prevDocs, document]);
         }).catch((error) => {
             console.log(error);
             alert("Error uploading document!");
@@ -94,7 +106,7 @@ const UploadInterface = ({documentType, setDocuments, closeDialog, setModalHeadi
                 />
 
                 <label htmlFor="DocumentFile" className={dragActive ? "uploadAreaInput dragActive" : "uploadAreaInput" }>
-                    <img src="assets/upload.png" alt="Upload Icon" />
+                    <img src="/assets/upload.png" alt="Upload Icon" />
                     <p>Drag and drop files here</p>
                     <p>OR</p>
                     <p style={{fontWeight: 700}} onClick={handleClick}>Click here to upload</p>
