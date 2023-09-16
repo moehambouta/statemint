@@ -17,6 +17,8 @@ class FileOperations(DbOperations):
                     for x, upload in enumerate(document['uploads'])
                     if not any(upload['filename'].lower().endswith(ext) for ext in desired_extensions)]
 
+        if len(uploadIds) == 0: return
+
         uploads = FileOperations.getUploadsByIds(uploadIds)
 
         for upload in uploads:

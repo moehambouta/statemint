@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import docTypesData from "./DocTypes.json";
 
 /**
+ * TODO: Disable access to inactive doc type cards
  * TODO: Retrieve DocTypes from database instead of JSON
 **/
 const DocTypeCard = ({name, src, setDocumentType, setModalHeading, setUploadInterface}) => {
