@@ -3,9 +3,6 @@ import "./UploadInterface.css";
 import PropTypes from 'prop-types';
 import { useRef, useState } from "react";
 
-/**
- * TODO: Make files appear below upload area in mobile view
-**/
 const UploadInterface = ({documentType, setDocuments, closeDialog, setModalHeading, setUploadInterface}) => {
     const [files, setFiles] = useState([]);
     const fileUploadInputRef = useRef(null);
