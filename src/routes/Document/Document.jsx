@@ -45,7 +45,7 @@ const Document = ({user, authModalRef}) => {
 
                         {documentData.map(item => (
                             <div className="values" key={item.section_id}>
-                                <div className="nameCell">{item.category_id}</div>
+                                <div className="nameCell">{item.category}</div>
                                 <div className="contentCell">{item.content}</div>
                             </div>
                         ))}

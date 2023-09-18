@@ -7,6 +7,7 @@ from data_parsing import DataParsing
 from file_operations import FileOperations
 
 app = Flask(__name__)
+dataParser = DataParsing()
 
 """
 Endpoint to process a document.
@@ -24,9 +25,9 @@ def processDocument():
     document = json.loads(request.data)
 
     FileOperations.checkAndConvertUploads(document)
-    OcrOperations.ocrAllImages(document)
-    cleanData = DataCleaning.cleanData(document)
-    DataParsing.parseData(cleanData)
+    rawData = OcrOperations.ocrAllImages(document)
+    cleanData = DataCleaning.cleanData(rawData)
+    dataParser.parseData(cleanData)
     return {"success": True}
 
 """

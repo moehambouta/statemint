@@ -10,6 +10,5 @@ class DataCleaning(DbOperations):
         document (Object): in the form of { insertId: string, uploads: Array }
     """
     @staticmethod
-    def cleanData(document):
-        uploadIds = [x + int(document["insertId"]) for x in range(len(document['uploads']))]
-        return DataCleaning.getRawDataByUploadIds(uploadIds)
+    def cleanData(rawData):
+        return rawData

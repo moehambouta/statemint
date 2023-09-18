@@ -26,16 +26,23 @@ class OcrOperations(DbOperations):
 
     Args:
         document (Object): in the form of { insertId: string, uploads: Array }
+
+    Returns:
+        Array: each element of the array is a tuple which contains the text from
+        a page of an uploaded file, and the id associated with the uploaded file
     """
     @classmethod
     def ocrAllImages(cls, document):
+        rawData = []
         for idx, upload in enumerate(document['uploads']):
             uploadId = int(document['insertId']) + idx
             desired_extensions = ['.png', '.jpg', '.jpeg']
-            files = [img for img in os.listdir(upload['destination']) 
+            images = [img for img in os.listdir(upload['destination']) 
                     if any(img.endswith(ext) for ext in desired_extensions)]
 
-            for file in files:
-                filePath = f"{upload['destination']}\\{file}"
+            for img in images:
+                filePath = f"{upload['destination']}\\{img}"
                 ocrText = OcrOperations.imageToString(filePath)
+                rawData.append((uploadId, ocrText))
                 cls.storeUploadRawData(uploadId, ocrText)
+        return rawData

@@ -9,6 +9,7 @@ class DbOperations:
     db = mydb
     cursor = mycursor
 
+    # ! unused
     @classmethod
     def getRawDataByUploadIds(cls, uploadIds):
         placeholders = ', '.join(['%s'] * len(uploadIds))
@@ -22,13 +23,9 @@ class DbOperations:
         cls.cursor.execute(insertRawDataSql, (uploadId, ocr))
         cls.db.commit()
 
-    """
-    TODO: Update processed_data column category_id to take a string instead
-    """
     @classmethod
-    def storeProcessedData(cls, uploadId, sents):
-        insertProcessedDataVals = [(uploadId, 1, x.text) for x in sents]
-        insertProcessedDataSql = "INSERT INTO processed_data (upload_id, category_id, content) VALUES (%s, %s, %s)"
+    def storeProcessedData(cls, insertProcessedDataVals):
+        insertProcessedDataSql = "INSERT INTO processed_data (upload_id, content, category) VALUES (%s, %s, %s)"
         cls.cursor.executemany(insertProcessedDataSql, insertProcessedDataVals)
         cls.db.commit()
 

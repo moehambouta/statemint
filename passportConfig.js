@@ -3,6 +3,7 @@ import { db } from "./server.js";
 import { Strategy } from "passport-local";
 
 // TODO: Implement SQL query class
+// TODO: Implement better error handling
 // ? select(selectWhat, fromWhere, byWhat, Value)
 // ? insertInto(insertIntoWhat, setWhat)
 // ? insertInto(insertIntoWhat, columns, values)
