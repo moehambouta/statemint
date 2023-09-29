@@ -1,7 +1,8 @@
 import axios from "axios";
 import Home from "./routes/Home/Home";
-import { useEffect, useRef, useState } from "react";
+import Layout from "./components/Layout/Layout";
 import Document from "./routes/Document/Document";
+import { useEffect, useRef, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 /**
@@ -26,8 +27,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home user={user} authModalRef={authModalRef}/>} />
-        <Route path='/documents/:documentId' element={<Document user={user} authModalRef={authModalRef}/>} />
+        <Route path='/' element={<Layout user={user} authModalRef={authModalRef}><Home user={user} authModalRef={authModalRef}/></Layout>} />
+        <Route path='/documents/:documentId' element={<Layout user={user} authModalRef={authModalRef}><Document user={user}/></Layout>} />
       </Routes>
     </BrowserRouter>
   )

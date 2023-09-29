@@ -2,15 +2,13 @@ import "./Document.css";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
 import React, { useEffect, useState } from "react";
-import AuthModal from "../../components/AuthModal/AuthModal";
 
 /**
  * TODO: Implement better UI
  * TODO: Editable cells that update database accordingly
 **/
-const Document = ({user, authModalRef}) => {
+const Document = ({user}) => {
     const params = useParams();
     const [documentName, setDocumentName] = useState(null);
     const [documentData, setDocumentData] = useState([]);
@@ -31,9 +29,6 @@ const Document = ({user, authModalRef}) => {
 
     return (
         <React.Fragment>
-            <Navbar user={user} authModalRef={authModalRef} />
-            <AuthModal authModalRef={authModalRef} />
-
             <div className="document">
                 <h1 className="documentHeading">{documentName ? documentName: "Please Log In"}</h1>
                 {user &&
@@ -57,8 +52,7 @@ const Document = ({user, authModalRef}) => {
 }
 
 Document.propTypes = {
-    user: PropTypes.object,
-    authModalRef: PropTypes.object.isRequired
+    user: PropTypes.object
 }
 
 export default Document;
