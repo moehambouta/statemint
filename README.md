@@ -1,4 +1,4 @@
-# Statmint: Financial Metadata Extractor 
+# Statemint: Financial Metadata Extractor 
 
 A tool designed to extract and organize financial data from financial documents (currently limited to bank statements), providing a simplified and consolidated view for users.
 
