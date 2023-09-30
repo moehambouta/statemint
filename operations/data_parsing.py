@@ -77,18 +77,23 @@ class DataParsing(DbOperations):
         self.matcher.add("ACCOUNT_NUMBER", [account_number_pattern])
 
     def addTransactionHeaderPattern(self):
-        header_pattern = [{"LOWER": "date"}, {"LOWER": "amount"}, {"LOWER": "description"}]
-        self.matcher.add("HEADER", [header_pattern])
+        header_pattern1 = [{"LOWER": "date"}, {"LOWER": "amount"}, {"LOWER": "description"}]
+        header_pattern2 = [{"LOWER": "date"}, {"LOWER": "description"}, {"LOWER": "amount"}]
+        self.matcher.add("HEADER", [header_pattern1, header_pattern2])
 
     def addTransactionPattern(self):
         amount_regex = "\d+\.\d{2}"
-        pattern = [
+        pattern1 = [
             {"TEXT": {"REGEX": "\d{2}/\d{2}"}},
             {"IS_SPACE": True, "OP": "*"},
             {"TEXT": {"REGEX": amount_regex}},
             {"IS_SPACE": True, "OP": "*"}
         ]
-        self.matcher.add("TRANSACTION", [pattern], greedy="LONGEST")
+        pattern2 = [
+            {"TEXT": {"REGEX": "\d{2}/\d{2}"}},
+            {"IS_SPACE": True, "OP": "*"},
+        ]
+        self.matcher.add("TRANSACTION", [pattern1, pattern2], greedy="LONGEST")
 
     """
     Parses data after data cleaning step
