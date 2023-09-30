@@ -19,7 +19,7 @@ class FileOperations(DbOperations):
 
         if len(uploadIds) == 0: return
 
-        uploads = FileOperations.getUploadsByIds(uploadIds)
+        uploads = FileOperations.getUploadsByIds(uploadIds) # inherited method from DbOperations
 
         for upload in uploads:
             doc = fitz.open(upload[2])

@@ -27,7 +27,7 @@ class DataParsing(DbOperations):
     def addStartAndEndPattern(self):
         date_regex_long = {"TEXT": {"REGEX": "\d{1,2}/\d{1,2}/\d{4}"}}
         date_regex_short = {"TEXT": {"REGEX": "\d{1,2}/\d{1,2}/\d{2}"}}
-        month_name = {"POS": "PROPN"}
+        month = {"POS": "PROPN"}
         day = {"SHAPE": "dd", "OP": "?"}
         year = {"SHAPE": "dddd"}
         pattern1 = [
@@ -37,12 +37,12 @@ class DataParsing(DbOperations):
             date_regex_long
         ]
         pattern2 = [
-            month_name,
+            month,
             day,
             {"ORTH": ",", "OP": "?"},
             year,
             {"POS": "ADP"},
-            month_name,
+            month,
             day,
             {"ORTH": ",", "OP": "?"},
             year
@@ -82,28 +82,28 @@ class DataParsing(DbOperations):
 
     def addTransactionPattern(self):
         amount_regex = "\d+\.\d{2}"
-        transaction_pattern = [
-            {"TEXT": {"REGEX": "\d{1,2}/\d{1,2}"}},
+        pattern = [
+            {"TEXT": {"REGEX": "\d{2}/\d{2}"}},
             {"IS_SPACE": True, "OP": "*"},
             {"TEXT": {"REGEX": amount_regex}},
-            {"IS_SPACE": True, "OP": "*"},
-            {"TEXT": {"REGEX": "^(?!(\\d{1,2}/\\d{1,2}\\s+\\d{1,2}/\\d{1,2})).*?$"}, "OP": "*"}
+            {"IS_SPACE": True, "OP": "*"}
         ]
-        self.matcher.add("TRANSACTION", [transaction_pattern], greedy="LONGEST")
+        self.matcher.add("TRANSACTION", [pattern], greedy="LONGEST")
 
     """
     Parses data after data cleaning step
     Stores the parsed data separately in the database
 
     Args:
-        cleanData (Array): list of tuples (upload id: int, data: text)
-        each tuple is the ocr text of a page on an uploaded file and the
-        id associated with the uploaded file
+        cleanData (Array): list of tuples (upload id: int, data: object)
+        each tuple is the ocr text and locations of a page on an uploaded
+        file and the id associated with the uploaded file
     """
     def parseData(self, cleanData):
         for page in cleanData:
             allMatches = []
-            doc = self.nlp(page[1])
+            pageText = " ".join(page[1]["text"])
+            doc = self.nlp(pageText)
 
             for _, start, end in self.phrase_matcher(doc):
                 span = doc[start:end]
@@ -124,13 +124,15 @@ class DataParsing(DbOperations):
                     sections = [(header_indices[i], header_indices[i + 1]) for i in range(len(header_indices) - 1)]
                     sections.append((header_indices[-1], len(doc)))
 
+                lastBoundary = 0
                 for start, end in sections:
                     section = doc[start:end]
                     matches = self.matcher(section)
                     matches = sorted(matches, key=lambda match: match[1])
                     for match_id, start, end in matches:
-                        if self.nlp.vocab.strings[match_id] == "TRANSACTION":
-                            matched_span = section[start:end]
+                        if self.nlp.vocab.strings[match_id] == "TRANSACTION" and lastBoundary != 0:
+                            matched_span = section[lastBoundary:start]
                             allMatches.append((page[0], matched_span.text, "TRANSACTION"))
+                        lastBoundary = start
 
             self.storeProcessedData(allMatches)
