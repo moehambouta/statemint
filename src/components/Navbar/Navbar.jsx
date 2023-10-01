@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 
 const Navbar = ({user, authModalRef}) => {
     return (
-        <div className="nav">
-            <a href="/" className="homeLink">
-                <img src="/assets/logoIcon.png" alt="Logo" />
-            </a>
+        <div className="navbar">
             <div className="account" onClick={() => !user?.username && authModalRef.current.showModal()}>
                 <span>{user?.username || "Register"}</span>
                 <img

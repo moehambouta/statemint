@@ -1,0 +1,50 @@
+.sidenav {
+    gap: 1rem;
+    width: 325px;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    flex-direction: column;
+    border-right: 1px solid var(--gray);
+}
+
+.sidenav > * {
+    width: 100%;
+}
+
+.homeLink {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.sidenav > .btnPrimary {
+    font-size: 1rem;
+    padding-block: 0.8rem;
+} 
+
+.navLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.bottom.navLinks {
+    margin-top: auto;
+}
+
+.navLink {
+    border-radius: 0.25rem;
+    padding: 0.75rem 0.5rem;
+    transition: 200ms ease-in-out;
+}
+
+.navLink:hover {
+    cursor: pointer;
+    background-color: var(--gray);
+}
+
+.active.navLink {
+    background-color: var(--gray);
+}

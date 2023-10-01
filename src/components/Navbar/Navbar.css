@@ -1,16 +1,16 @@
-.nav {
+.navbar {
     width: 100%;
     display: flex;
     align-items: center;
     padding-inline: 1rem;
     height: 3.5rem;
-    justify-content: space-between;
+    justify-content: right;
     box-sizing: border-box;
     border-bottom: 1px solid var(--gray);
     overflow: hidden;
 }
 
-.nav > * {
+.navbar > * {
     padding: 0.25rem;
 }
 

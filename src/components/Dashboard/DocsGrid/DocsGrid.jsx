@@ -18,7 +18,7 @@ const DocsGrid = ({documents, docTypeModalRef}) => {
     return (
         <React.Fragment>
             <div className="docsGridHeading">
-                <h1>Documents</h1>
+                <h1>Document Types</h1>
                 <button className="btnPrimary" onClick={() => docTypeModalRef.current.showModal()}>+ Add document type</button>
             </div>
             <div className="docsGrid">
