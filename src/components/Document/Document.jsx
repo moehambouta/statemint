@@ -35,7 +35,9 @@ const Document = ({user}) => {
                 <div className="documentContent">
                     <div className="documentTable">
                         <h1 className="documentName">{documentName}</h1>
-                        {documentData.map(item => (
+                        {documentData
+                        .filter(item => item.upload_id === documentUploads[0].uploadId)
+                        .map(item => (
                             <div className="values" key={item.section_id}>
                                 <div className="nameCell">{item.category}</div>
                                 <div className="contentCell">{item.content}</div>

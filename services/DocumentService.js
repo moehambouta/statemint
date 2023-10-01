@@ -88,7 +88,7 @@ export class DocumentService {
         return new Promise((resolve, reject) => {
             let placeholders = uploadIds.map(() => '?').join(',');
             let sql = `SELECT * FROM processed_data WHERE upload_id IN (${placeholders})`
-            db.query(sql, [uploadIds], (error, results) => {
+            db.query(sql, uploadIds, (error, results) => {
                 if (error) reject(error);
                 else resolve(results);
             })
