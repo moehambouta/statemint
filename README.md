@@ -2,9 +2,6 @@
 
 A tool designed to extract and organize financial data from financial documents (currently limited to bank statements), providing a simplified and consolidated view for users.
 
-[![Thumbnail Image](https://github.com/moehambouta/statemint/blob/main/thumbnail.png?raw=true)](https://www.youtube.com/watch?v=qLunj33j9Mk)
-<p align="center">Video Demo</p>
-
 ## Current Features
 
 1. **User Interface (UI)**:
