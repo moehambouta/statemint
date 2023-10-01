@@ -39,7 +39,7 @@ const getDocumentsById = (req, res) => DocumentService.getDocumentsById(req, res
 
 // API routes
 router.post('/upload', upload.any(), setNewDocument);
-router.get('/documents/:id', getDocumentById);
+router.get('/document/:id', getDocumentById);
 router.get('/documents', getDocumentsById);
 
 export default router;

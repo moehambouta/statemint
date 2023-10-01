@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 **/
 const DocsGrid = ({documents, docTypeModalRef}) => {
     const handleReviewClick = (e, documentId) => {
-        window.location.href = `/documents/${documentId}`;
+        window.location.href = `/document/${documentId}`;
     };
 
     return (

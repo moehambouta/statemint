@@ -1,6 +1,9 @@
+import fs from "fs";
+import path from "path";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { db } from "../server.js";
+import { __dirname } from "../server.js";
 
 export class UserService {
     /**
@@ -41,5 +44,34 @@ export class UserService {
         });
 
         authenticateLocal(req, res, next);
+    }
+
+    static getSecureImage(req, res) {
+        try {
+            if (!req.user) throw new Error("unauthorized");
+
+            const imagePath = decodeURIComponent(req.query.path);
+            const requestedPath = path.join(__dirname, imagePath)
+            const safePath = path.normalize(requestedPath);
+
+            if (!safePath.startsWith(__dirname)) {
+                // The request is trying to access a file outside of the base directory
+                res.status(403).send({error: 'Forbidden'});
+                return;
+            }
+
+            if (fs.existsSync(safePath)) {
+                res.sendFile(safePath);
+            } else {
+                res.status(404).send({error: 'not found'});
+            }
+
+        } catch (error) {
+            if (error.message == "unauthroized") {
+                res.status(401).send({error: error.message});
+            } else {
+                res.status(500).send({error: error.message});
+            }
+        }
     }
 }

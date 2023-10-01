@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import axios from 'axios';
 import { db } from "../server.js";
 
@@ -62,27 +64,72 @@ export class DocumentService {
         });
     }
 
+    static getDocName = (documentId) => {
+        return new Promise((resolve, reject) => {
+            let sql = `SELECT document_name FROM documents WHERE document_id = ?`
+            db.query(sql, [documentId], (error, results) => {
+                if (error) reject(error);
+                else resolve(results[0].document_name);
+            })
+        })
+    }
+
+    static getDocUploads = (documentId) => {
+        return new Promise((resolve, reject) => {
+            let sql = `SELECT upload_id, file_path FROM uploads WHERE document_id = ?`
+            db.query(sql, [documentId], (error, results) => {
+                if (error) reject(error);
+                else resolve(results);
+            })
+        })
+    }
+
+    static getProcessedData  = (uploadIds) => {
+        return new Promise((resolve, reject) => {
+            let placeholders = uploadIds.map(() => '?').join(',');
+            let sql = `SELECT * FROM processed_data WHERE upload_id IN (${placeholders})`
+            db.query(sql, [uploadIds], (error, results) => {
+                if (error) reject(error);
+                else resolve(results);
+            })
+        })
+    }
+
+    static getImages = (uploadId, filePath) => {
+        let directoryPath = path.dirname(filePath);
+        let imageFiles = fs.readdirSync(directoryPath).filter(file => ['.jpeg', '.jpg', '.png'].includes(path.extname(file)));
+        for (let i = 0; i < imageFiles.length; i++) {
+            imageFiles[i] = `${directoryPath.split("statemint")[1]}\\${imageFiles[i]}`;
+        }
+        return {uploadId, files: imageFiles};
+    }
+
     /**
      * Queries database to get a single document by a document ID
      * TODO: Implement SQL query class
      * @param {Object} req request object
      * @param {Object} res response object
      */
-    static getDocumentById(req, res) {
+    static async getDocumentById(req, res) {
         this.authenticateRequest(req, res);
+        let documentInformation = {};
 
-        const getDocDataSql = `
-            SELECT d.document_name AS documentName, pd.*
-            FROM processed_data pd
-            JOIN uploads u ON pd.upload_id = u.upload_id
-            JOIN documents d ON u.document_id = d.document_id
-            WHERE u.document_id = ?
-        `;
+        try {
+            let documentName = await this.getDocName(req.params.id);
+            let uploads = await this.getDocUploads(req.params.id);
+            let uploadIds = uploads.map(upload => upload.upload_id);
+            let processedData = await this.getProcessedData(uploadIds);
 
-        db.query(getDocDataSql, [req.params.id], (error, results) => {
-            if (error) return res.status(500).send({ error });
-            res.send({document: results});
-        });
+            documentInformation = {
+                documentName: documentName,
+                documentUploads: uploads.map(({ upload_id, file_path }) => this.getImages(upload_id, file_path)),
+                documentData: processedData
+            };
+        } catch (error) {
+            return res.status(500).send({ error: error.message });
+        }
+
+        res.send(documentInformation);
     }
 
     /**

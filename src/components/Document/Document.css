@@ -1,31 +1,32 @@
 .document {
     padding: 0.75rem 1.75rem;
     box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
 }
 
 .documentHeading {
     display: flex;
     width: 100%;
-    padding-bottom: 1rem;
-    box-sizing: border-box;
     font-size: 1.25rem;
     font-weight: 700;
 }
 
+.documentContent {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-block: 1rem;
+    overflow: hidden;
+}
+
 .documentTable {
     gap: 0.5rem;
-    width: 100%;
     display: flex;
+    overflow-y: scroll;
     flex-direction: column;
-}
-
-.documentTable > .headings {
-    font-weight: 700;
-    width: 100%;
-}
-
-.documentTable > .headings > * {
-    background-color: var(--gray);
+    min-width: 500px;
 }
 
 .documentTable > * {
@@ -46,5 +47,13 @@
 }
 
 .contentCell {
+    width: 100%;
+}
+
+.documentImages {
+    overflow-y: scroll;
+}
+
+.documentImages > img {
     width: 100%;
 }

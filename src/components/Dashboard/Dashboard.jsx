@@ -1,10 +1,12 @@
+import axios from "axios";
 import "./Dashboard.css";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import Navbar from "../Navbar/Navbar";
 import DocsGrid from "./DocsGrid/DocsGrid";
+import React, { useEffect, useRef, useState } from "react";
 import EmptyDocs from "./EmptyDocs/EmptyDocs";
 import DocTypeModal from "./DocTypeModal/DocTypeModal";
-import axios from "axios";
+import AuthModal from "../AuthModal/AuthModal";
 
 /**
  * TODO: Abstract container css for DocsGrid and EmptyDocs
@@ -26,14 +28,18 @@ const Dashboard = ({user, authModalRef}) => {
     }, [user]);
 
     return (
-        <main>
-            {
-                documents.length
-                    ? <DocsGrid documents={documents} docTypeModalRef={docTypeModalRef} />
-                    : <EmptyDocs user={user} authModalRef={authModalRef} docTypeModalRef={docTypeModalRef} />
-            }
-            <DocTypeModal setDocuments={setDocuments} docTypeModalRef={docTypeModalRef} />
-        </main>
+        <React.Fragment>
+            <Navbar user={user} authModalRef={authModalRef} />
+            <AuthModal authModalRef={authModalRef} />
+            <main>
+                {
+                    documents.length
+                        ? <DocsGrid documents={documents} docTypeModalRef={docTypeModalRef} />
+                        : <EmptyDocs user={user} authModalRef={authModalRef} docTypeModalRef={docTypeModalRef} />
+                }
+                <DocTypeModal setDocuments={setDocuments} docTypeModalRef={docTypeModalRef} />
+            </main>
+        </React.Fragment>
     )
 }
 
