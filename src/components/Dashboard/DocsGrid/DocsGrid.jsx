@@ -11,6 +11,10 @@ const DocsGrid = ({documents, docTypeModalRef}) => {
         window.location.href = `/document/${documentId}`;
     };
 
+    const handleUploadClick = (e, documentId) => {
+        console.log(e, documentId)
+    }
+
     return (
         <React.Fragment>
             <div className="docsGridHeading">
@@ -26,7 +30,7 @@ const DocsGrid = ({documents, docTypeModalRef}) => {
                         <p className="docCardDetails">Approved: {doc.approved_count}</p>
                         <div className="docCardBtns">
                             <button className="btnPrimary">Edit Fields</button>
-                            <button className="btnPrimary">Upload</button>
+                            <button className="btnPrimary" onClick={(e) => handleUploadClick(e, doc.document_id)}>Upload</button>
                             <button className="btnPrimary" onClick={(e) => handleReviewClick(e, doc.document_id)}>Review</button>
                         </div>
                     </div>

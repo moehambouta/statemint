@@ -12,7 +12,8 @@ import AuthModal from "../AuthModal/AuthModal";
  * TODO: Abstract container css for DocsGrid and EmptyDocs
  * TODO: Add loading component for after document creation
 **/
-const Dashboard = ({user, authModalRef}) => {
+const Dashboard = ({user}) => {
+    const authModalRef = useRef(null);
     const docTypeModalRef = useRef(null);
     const [documents, setDocuments] = useState([]);
 
@@ -30,22 +31,21 @@ const Dashboard = ({user, authModalRef}) => {
     return (
         <React.Fragment>
             <Navbar user={user} authModalRef={authModalRef} />
-            <AuthModal authModalRef={authModalRef} />
             <main>
                 {
                     documents.length
                         ? <DocsGrid documents={documents} docTypeModalRef={docTypeModalRef} />
                         : <EmptyDocs user={user} authModalRef={authModalRef} docTypeModalRef={docTypeModalRef} />
                 }
-                <DocTypeModal setDocuments={setDocuments} docTypeModalRef={docTypeModalRef} />
             </main>
+            <DocTypeModal setDocuments={setDocuments} docTypeModalRef={docTypeModalRef} />
+            <AuthModal authModalRef={authModalRef} />
         </React.Fragment>
     )
 }
 
 Dashboard.propTypes = {
     user: PropTypes.object,
-    authModalRef: PropTypes.object.isRequired
 };
 
 export default Dashboard;
