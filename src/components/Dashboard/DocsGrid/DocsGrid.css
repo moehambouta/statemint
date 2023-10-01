@@ -1,7 +1,7 @@
 .docsGridHeading {
     display: flex;
     width: 100%;
-    padding: 0.75rem 1.75rem;
+    padding: 0.75rem 1rem;
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
@@ -12,7 +12,7 @@
 .docsGrid {
     gap: 1rem;
     display: grid;
-    padding: 0.75rem 1.75rem;
+    padding: 0.75rem 1rem;
     box-sizing: border-box;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }

@@ -1,5 +1,6 @@
 .sidenav {
     gap: 1rem;
+    min-width: 220px;
     width: 325px;
     display: flex;
     align-items: center;
@@ -18,11 +19,6 @@
     width: 100%;
     justify-content: center;
 }
-
-.sidenav > .btnPrimary {
-    font-size: 1rem;
-    padding-block: 0.8rem;
-} 
 
 .navLinks {
     display: flex;
